@@ -1,8 +1,9 @@
-
 import React from 'react';
 import {auth, UserButton} from "@clerk/nextjs";
 import {MainNav} from "@/components/main-nav";
 import {redirect} from "next/navigation";
+import prismadb from "@/lib/prismadb";
+import StoreSwitcher from "@/components/store-switcher";
 
 const Navbar = async () => {
 
@@ -10,11 +11,18 @@ const Navbar = async () => {
 
     if(!userId) return redirect("/sign-in")
 
+    const stores = await prismadb.store.findMany({
+        where:{
+            userId
+        }
+    })
+    
+    console.log(stores.map(el => el.name))
 
     return (
         <div className={'border-b'}>
             <div className={'flex h-16 items-center px-4'}>
-                Active User : {userId}
+                <StoreSwitcher items={stores} />
                 <MainNav className={'mx-6'}/>
                 <div className={'ml-auto flex items-center space-x-4'}>
                     <UserButton afterSignOutUrl={'/'}/>
