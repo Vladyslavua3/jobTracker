@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-//import {CellAction} from "@/app/(dashboard)/[jobId]/(routes)/billboards/components/cell-action";
+import {CellAction} from "@/app/(dashboard)/[jobId]/(routes)/jobTracker/components/cell-action";
 
 
 export type JobsColumn = {
@@ -44,8 +44,8 @@ export const columns: ColumnDef<JobsColumn>[] = [
         accessorKey: "createdAt",
         header: "Date",
     },
-    // {
-    //     id:'actions',
-    //     cell: ({row}) => <CellAction data={row.original}/>
-    // }
+    {
+        id:'actions',
+        cell: ({row}) => <CellAction data={row.original}/>
+    }
 ]
