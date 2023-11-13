@@ -30,6 +30,12 @@ type StatusCounts = {
     rejected: number;
 };
 
+enum StatusCode {
+    Applied = 'applied',
+    Interview = 'interview',
+    Rejected = 'rejected'
+}
+
 export const options:ChartOptions<'bar'> = {
     responsive: true,
     layout: {
@@ -115,9 +121,10 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
         if (!acc[month]) {
             acc[month] = { applied: 0, interview: 0, rejected: 0 };
         }
-        if (job.status.toLowerCase() === 'applied') acc[month].applied += 1;
-        if (job.status.toLowerCase() === 'interview') acc[month].interview += 1;
-        if (job.status.toLowerCase() === 'rejected') acc[month].rejected += 1;
+        if (job.status.toLowerCase() === StatusCode.Applied) acc[month].applied += 1;
+        if (job.status.toLowerCase() === StatusCode.Interview) acc[month].interview += 1;
+        if (job.status.toLowerCase() === StatusCode.Rejected) acc[month].rejected += 1;
+        console.log(acc)
         return acc;
     }, {} as Record<string, StatusCounts>);
 
