@@ -78,7 +78,6 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
 
     const onSubmit = async (data:JobFormValues) =>{
         try {
-            console.log(data)
             setLoading(true)
             if(initialData){
                 await axios.patch(`/api/${params.jobId}/jobTracker/${params.jobTrackerId}`,data)

@@ -124,7 +124,7 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
         if (job.status.toLowerCase() === StatusCode.Applied) acc[month].applied += 1;
         if (job.status.toLowerCase() === StatusCode.Interview) acc[month].interview += 1;
         if (job.status.toLowerCase() === StatusCode.Rejected) acc[month].rejected += 1;
-        console.log(acc)
+
         return acc;
     }, {} as Record<string, StatusCounts>);
 

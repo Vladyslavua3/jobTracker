@@ -40,7 +40,6 @@ const PieChart = ({cities}:{cities:CitiesType[]}) => {
 
         acc[city.location].count++;
 
-        console.log(acc)
         return acc
     },{} as Record<string, {count:number}> )
 
@@ -68,7 +67,7 @@ const PieChart = ({cities}:{cities:CitiesType[]}) => {
     };
 
 
-    return <Pie data={data} options={options as ChartOptions}/>
+    return <Pie data={data} options={options as ChartOptions} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md '}/>
 }
 
 export default PieChart
