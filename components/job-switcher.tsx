@@ -19,15 +19,15 @@ import {
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface StoreSwitcherProps extends PopoverTriggerProps{
+interface JobSwitcherProps extends PopoverTriggerProps{
   items:Store[];
 }
 
 
-export default function StoreSwitcher({
+export default function JobSwitcher({
    className,
    items = []
-}: StoreSwitcherProps) {
+}: JobSwitcherProps) {
 
 
     const storeModal = useStoreModal()
@@ -61,7 +61,6 @@ export default function StoreSwitcher({
                     aria-label={"Select a store"}
                     className={cn("w-[200px] justify-between", className)}
                 >
-                    <StoreIcon className={"mr-2 h-4 2-4"} />
                     {currentStore?.label}
                     <ChevronsUpDown className={"ml-auto h-4 w-4 shrink-0 opacity-50"}/>
                 </Button>
@@ -78,7 +77,6 @@ export default function StoreSwitcher({
                                     onSelect={()=>onStoreSelect(store)}
                                     className={"text-sm"}
                                 >
-                                        <StoreIcon className={"mr-2 h-4 w-4"}/>
                                     {store.label}
                                     <Check
                                         className={cn("ml-auto h-4 w-4",
@@ -99,7 +97,7 @@ export default function StoreSwitcher({
                                 }}
                             >
                                 <PlusCircle className={"mr-2 h-5 w-5"}/>
-                                Create Store
+                                New Job
                             </CommandItem>
                         </CommandGroup>
                     </CommandList>
