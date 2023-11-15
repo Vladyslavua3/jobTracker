@@ -7,16 +7,19 @@ import {CitiesType} from "@/app/(dashboard)/[jobId]/(routes)/page";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export const options:ChartOptions<'polarArea'> = {
+export const options:ChartOptions<'pie'> = {
     responsive: true,
     plugins: {
         legend: {
-            position: 'top' as const,
             labels: {
                 font: {
-                    family: 'inter',
-                    size:17
+                    family: 'Inter',
+                    size:17,
+
                 },
+                boxWidth:20,
+                boxHeight:20,
+                useBorderRadius:true,
             },
         },
         title: {
@@ -24,7 +27,7 @@ export const options:ChartOptions<'polarArea'> = {
             text: 'Job Statistic by Cities',
             font:{
                 family:'Inter',
-                size:20
+                size:20,
             }
         },
     },
@@ -59,7 +62,7 @@ const PieChart = ({cities}:{cities:CitiesType[]}) => {
                 ],
                 borderWidth: 1,
                 font:{
-                    family: 'inter',
+                    family: 'Inter',
                     size:17
                 },
             },

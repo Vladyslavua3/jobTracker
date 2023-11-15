@@ -49,6 +49,9 @@ export const options:ChartOptions<'bar'> = {
     scales: {
         y: {
             beginAtZero: true,
+            grid:{
+                drawOnChartArea:false
+            },
             ticks: {
                 stepSize: 1,
                 callback: function(value) {
@@ -59,6 +62,9 @@ export const options:ChartOptions<'bar'> = {
             },
         },
         x: {
+            grid:{
+              drawOnChartArea:false
+            },
             ticks: {
                 font: {
                     family: 'inter',
@@ -69,12 +75,15 @@ export const options:ChartOptions<'bar'> = {
     },
     plugins: {
         legend: {
-            position: 'top' as const,
             labels: {
                 font: {
-                    family: 'inter',
-                    size:17
+                    family: 'Inter',
+                    size:17,
+
                 },
+                boxWidth:20,
+                boxHeight:20,
+                useBorderRadius:true
             },
         },
         title: {
@@ -88,30 +97,6 @@ export const options:ChartOptions<'bar'> = {
     },
 };
 
-const plugins = [
-    {
-        beforeDraw: function (chart:any) {
-            if (chart.chartArea) {
-                let ctx = chart.ctx;
-                let chartArea = chart.chartArea;
-                let barArray = chart.getDatasetMeta(0).data;
-
-                ctx.fillStyle = "#EEE";
-
-                for (let i = 0; i < barArray.length; i++) {
-                    const { x, width } = barArray[i];
-
-                    ctx.fillRect(
-                        x - width / 2,
-                        chartArea.top,
-                        width,
-                        chartArea.bottom - chartArea.top
-                    );
-                }
-            }
-        }
-    }
-];
 
 
 const BarChart = ({jobs} : {jobs:JobsType[]}) => {
@@ -124,7 +109,6 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
         if (job.status.toLowerCase() === StatusCode.Applied) acc[month].applied += 1;
         if (job.status.toLowerCase() === StatusCode.Interview) acc[month].interview += 1;
         if (job.status.toLowerCase() === StatusCode.Rejected) acc[month].rejected += 1;
-
         return acc;
     }, {} as Record<string, StatusCounts>);
 
@@ -135,7 +119,7 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
             {
                 label: 'Applied',
                 data: Object.values(countsByMonth).map((counts) => counts.applied),
-                backgroundColor: 'rgba(53, 200, 66, 0.5)',
+                backgroundColor: '#adfa1d',
                 borderColor: 'rgba(53, 162, 100, 0.8)',
                 borderWidth: 2,
                 borderRadius:5
@@ -160,7 +144,7 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
     };
 
 
-    return <Bar data={data} options={options} plugins={plugins as any} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md '} />
+    return <Bar data={data} options={options} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md '} />
 }
 
 export default BarChart
