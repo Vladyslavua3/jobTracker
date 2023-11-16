@@ -23,6 +23,11 @@ export function MainNav({
                 label:'Job Tracker',
                 active: pathname === `/${params.jobId}/jobTracker`
             },
+            {
+                href:`/${params.jobId}/schedule`,
+                label:'Schedule',
+                active: pathname === `/${params.jobId}/schedule`
+            },
         ]
 
 
