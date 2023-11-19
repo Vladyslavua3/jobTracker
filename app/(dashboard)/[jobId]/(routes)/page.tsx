@@ -52,11 +52,10 @@ const DashBoardPage:React.FC<DashboardPropsType> = async ({params}) =>{
     return(
         <div className={'h-screen'}>
             Active Job : {store?.name}
-            <div className={'flex items-center justify-around h-full'}>
+            <div className={'flex items-center justify-around h-full lg:flex-wrap md:flex-wrap'}>
                 <BarChart jobs={formattedJobs} />
                 <PieChart cities={formattedCities} />
             </div>
-
         </div>
     )
 }

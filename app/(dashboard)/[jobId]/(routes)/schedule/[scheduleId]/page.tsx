@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import {ScheduleTrackerForm} from "@/app/(dashboard)/[jobId]/(routes)/schedule/[scheduleId]/components/jobTracker-form";
+import {ScheduleTrackerForm} from "@/app/(dashboard)/[jobId]/(routes)/schedule/[scheduleId]/components/scheduleTracker-form";
 
 const ScheduleTrackerPage = async ({
                                   params
