@@ -11,6 +11,9 @@ import {
 import { Bar } from 'react-chartjs-2';
 import {format} from "date-fns";
 import {JobsType} from "@/app/(dashboard)/[jobId]/(routes)/page";
+import {Inter} from "next/font/google";
+
+
 
 
 
@@ -23,6 +26,20 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+const inter = Inter({ subsets: ['latin'] })
+
+ChartJS.defaults.font = {
+    family:inter.className,
+    style:'oblique',
+    weight:'300',
+    lineHeight:1.2
+}
+
+ChartJS.defaults.font.size = 18
+// ChartJS.defaults.color = '#fff'
+
+
 
 type StatusCounts = {
     applied: number;
@@ -65,22 +82,11 @@ export const options:ChartOptions<'bar'> = {
             grid:{
               drawOnChartArea:false
             },
-            ticks: {
-                font: {
-                    family: 'inter',
-                    size:17
-                },
-            },
         },
     },
     plugins: {
         legend: {
             labels: {
-                font: {
-                    family: 'Inter',
-                    size:17,
-
-                },
                 boxWidth:20,
                 boxHeight:20,
                 useBorderRadius:true
@@ -89,10 +95,6 @@ export const options:ChartOptions<'bar'> = {
         title: {
             display: true,
             text: 'Job Statistic',
-            font:{
-                family:'Inter',
-                size:20
-            }
         },
     },
 };
@@ -144,7 +146,7 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
     };
 
 
-    return <Bar data={data} options={options} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md '} />
+    return <Bar data={data} options={options} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md'} />
 }
 
 export default BarChart
