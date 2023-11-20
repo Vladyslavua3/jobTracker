@@ -8,6 +8,7 @@ import {Heading} from "@/components/ui/heading";
 import {Separator} from "@/components/ui/separator";
 import {DataTable} from "@/components/ui/data-table";
 import {columns, ScheduleColumn} from "@/app/(dashboard)/[jobId]/(routes)/schedule/components/columns";
+import {formatDate} from "@fullcalendar/core";
 
 interface ScheduleClientProps{
     data:ScheduleColumn[]
@@ -20,6 +21,17 @@ const ScheduleClient:FC<ScheduleClientProps> = ({data}) => {
     const handlerForButton = () => {
         router.push(`/${params.jobId}/schedule/new`)
     }
+
+    const formattedDate = data.map(item => ({
+        id:item.id,
+        company:item.company,
+        dataInterview: formatDate(item.dataInterview ,{
+            year:'numeric',
+            month:'short',
+            day:'numeric',
+            hour:'numeric'
+        }),
+    }))
 
 
     return(
@@ -34,7 +46,7 @@ const ScheduleClient:FC<ScheduleClientProps> = ({data}) => {
                 </Button>
             </div>
             <Separator/>
-            <DataTable searchKey={'company'} columns={columns} data={data}/>
+            <DataTable searchKey={'company'} columns={columns} data={formattedDate}/>
         </>
     )
 }

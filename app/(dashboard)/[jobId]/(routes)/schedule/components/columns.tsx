@@ -9,7 +9,6 @@ export type ScheduleColumn = {
     id: string
     company: string
     dataInterview: string
-    createdAt: string
 }
 
 export const columns: ColumnDef<ScheduleColumn>[] = [
@@ -20,10 +19,6 @@ export const columns: ColumnDef<ScheduleColumn>[] = [
     {
         accessorKey:"dataInterview",
         header:"Data Interview"
-    },
-    {
-        accessorKey: "createdAt",
-        header: "Date",
     },
     {
         id:'actions',
