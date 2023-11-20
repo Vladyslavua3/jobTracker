@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import {format} from 'date-fns'
 import ScheduleClient from "@/app/(dashboard)/[jobId]/(routes)/schedule/components/client";
 import {ScheduleColumn} from "@/app/(dashboard)/[jobId]/(routes)/schedule/components/columns";
+import CustomCalendar from "@/components/ui/custom-calendar";
 
 const ScheduleTracker = async ({
     params
@@ -22,7 +23,7 @@ const ScheduleTracker = async ({
     const formattedSchedule:ScheduleColumn[] = schedule.map(item => ({
         id:item.id,
         company:item.company,
-        dataInterview:format(item.dataInterview,"MMMM do, yyyy"),
+        dataInterview:item.dataInterview,
         createdAt:format(item.createdAt,"MMMM do, yyyy")
     }))
 
@@ -31,6 +32,7 @@ const ScheduleTracker = async ({
     return(
         <div className={'flex-col'}>
             <div className={'flex-1 space-y-4 p-8 pt-6'}>
+                <CustomCalendar data={formattedSchedule}/>
                 <ScheduleClient data={formattedSchedule}/>
             </div>
         </div>
