@@ -41,7 +41,7 @@ model ScheduleTable {
   id            String   @id @default(uuid())
   jobId         String
   store         Store    @relation("StoreToScheduleTable", fields: [jobId], references: [id])
-  dataInterview DateTime
+  dataInterview String
   company       String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
