@@ -22,11 +22,11 @@ const JobTracker = async ({
         id:item.id,
         position: item.position,
         company: item.company,
+        link: item.link,
         status: item.status,
         salary: item.salary,
         location: item.location,
         dataApplied: format(item.dataApplied,"MMMM do, yyyy"),
-        createdAt: format(item.createdAt, "MMMM do, yyyy")
     }))
 
 

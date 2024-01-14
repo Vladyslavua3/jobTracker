@@ -39,6 +39,7 @@ const formSchema = z.object({
     position: z.string().min(1),
     company: z.string().min(1),
     status: z.string().min(1),
+    link:z.string().min(1),
     salary: z.string().min(1),
     location: z.string().min(1),
     dataApplied: z.date()
@@ -70,6 +71,7 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
             position: "",
             company: "",
             status: "",
+            link: "",
             salary: "",
             location: "",
             dataApplied:date
@@ -77,6 +79,7 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
     })
 
     const onSubmit = async (data:JobFormValues) =>{
+        console.log(data)
         try {
             setLoading(true)
             if(initialData){
@@ -198,12 +201,27 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value="applied">Applied</SelectItem>
-                                                <SelectItem value="interview">Interview</SelectItem>
-                                                <SelectItem value="rejected">Rejected</SelectItem>
+                                                <SelectItem value="Applied">Applied</SelectItem>
+                                                <SelectItem value="Interview">Interview</SelectItem>
+                                                <SelectItem value="Offer">Offer</SelectItem>
+                                                <SelectItem value="Rejected">Rejected</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                        {/*<Input disabled={loading} placeholder={'Status'} {...field}/>*/}
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className={'grid grid-cols-3 gap-8'}>
+                        <FormField
+                            control={form.control}
+                            name='link'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Link</FormLabel>
+                                    <FormControl>
+                                        <Input disabled={loading} placeholder={'Link'} {...field}/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>

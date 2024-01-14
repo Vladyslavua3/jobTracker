@@ -9,10 +9,10 @@ export type JobsColumn = {
     position: string
     company: string
     status: string
+    link : string
     salary: string
     location: string
     dataApplied: string
-    createdAt: string
 }
 
 export const columns: ColumnDef<JobsColumn>[] = [
@@ -23,6 +23,10 @@ export const columns: ColumnDef<JobsColumn>[] = [
     {
       accessorKey:"position",
       header:"Position"
+    },
+    {
+        accessorKey: "link",
+        header: "Link",
     },
     {
         accessorKey:"salary",
@@ -39,10 +43,6 @@ export const columns: ColumnDef<JobsColumn>[] = [
     {
         accessorKey:"status",
         header:"Status"
-    },
-    {
-        accessorKey: "createdAt",
-        header: "Date",
     },
     {
         id:'actions',
