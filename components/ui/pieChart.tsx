@@ -3,8 +3,10 @@
 import {Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions} from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import {CitiesType} from "@/app/(dashboard)/[jobId]/(routes)/page";
+import Chart from "chart.js/auto";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+Chart.defaults.font.family = "cursive"
 
 
 export const options:ChartOptions<'pie'> = {
@@ -13,7 +15,6 @@ export const options:ChartOptions<'pie'> = {
         legend: {
             labels: {
                 font: {
-                    family: 'Inter',
                     size:17,
 
                 },
@@ -26,7 +27,6 @@ export const options:ChartOptions<'pie'> = {
             display: true,
             text: 'Job Statistic by Cities',
             font:{
-                family:'Inter',
                 size:20,
             }
         },
@@ -70,7 +70,7 @@ const PieChart = ({cities}:{cities:CitiesType[]}) => {
     };
 
 
-    return <Pie data={data} options={options as ChartOptions} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md '}/>
+    return <Pie data={data} options={options} className={'max-h-96 max-w-2xl border-2 border-solid border-black-500 rounded-md'}/>
 }
 
 export default PieChart
