@@ -13,11 +13,6 @@ import {format} from "date-fns";
 import {JobsType} from "@/app/(dashboard)/[jobId]/(routes)/page";
 import {Inter} from "next/font/google";
 
-
-
-
-
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -32,25 +27,23 @@ const inter = Inter({ subsets: ['latin'] })
 ChartJS.defaults.font = {
     family:inter.className,
     style:'oblique',
-    weight:'300',
     lineHeight:1.2
 }
 
 ChartJS.defaults.font.size = 18
-// ChartJS.defaults.color = '#fff'
-
-
 
 type StatusCounts = {
     applied: number;
     interview: number;
     rejected: number;
+    offer:number
 };
 
 enum StatusCode {
     Applied = 'applied',
     Interview = 'interview',
-    Rejected = 'rejected'
+    Rejected = 'rejected',
+    Offer = 'offer'
 }
 
 export const options:ChartOptions<'bar'> = {
@@ -106,11 +99,12 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
     const countsByMonth:Record<string, StatusCounts> = jobs.reduce((acc, job) => {
         const month = format(+job.dataApplied, 'MMMM');
         if (!acc[month]) {
-            acc[month] = { applied: 0, interview: 0, rejected: 0 };
+            acc[month] = { applied: 0, interview: 0, rejected: 0 ,offer: 0};
         }
         if (job.status.toLowerCase() === StatusCode.Applied) acc[month].applied += 1;
         if (job.status.toLowerCase() === StatusCode.Interview) acc[month].interview += 1;
         if (job.status.toLowerCase() === StatusCode.Rejected) acc[month].rejected += 1;
+        if (job.status.toLowerCase() === StatusCode.Offer) acc[month].offer += 1;
         return acc;
     }, {} as Record<string, StatusCounts>);
 
@@ -133,6 +127,14 @@ const BarChart = ({jobs} : {jobs:JobsType[]}) => {
                 borderColor: 'rgba(53, 162, 235, 0.8)',
                 borderWidth: 2,
                 borderRadius:5,
+            },
+            {
+                label: 'Offer',
+                data: Object.values(countsByMonth).map((counts) => counts.offer),
+                backgroundColor: 'rgba(53, 162, 100, 0.8)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                borderRadius:5
             },
             {
                 label: 'Rejected',
