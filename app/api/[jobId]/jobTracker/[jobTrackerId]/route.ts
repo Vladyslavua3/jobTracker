@@ -38,7 +38,7 @@ export async function PATCH(
         const {userId} = auth()
         const body = await req.json()
 
-        const {position,company,status,salary,location,dataApplied} = body
+        const {position,company,status,salary,location,dataApplied,link} = body
 
         if(!userId) {
             return new NextResponse('Unauthenticated',{status:401})
@@ -70,7 +70,7 @@ export async function PATCH(
                 id:params.jobTrackerId,
             },
             data:{
-                position,company,status,salary,location,dataApplied
+                position,company,status,salary,location,dataApplied,link
             }
         })
 

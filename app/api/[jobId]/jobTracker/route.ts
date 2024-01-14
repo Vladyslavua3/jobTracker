@@ -7,7 +7,7 @@ export async function POST(req:Request, {params}:{params:{jobId:string}}){
         const {userId} = auth();
         const body = await req.json()
 
-        const {position,company,status,salary,location,dataApplied} = body
+        const {position,company,status,salary,location,dataApplied,link} = body
 
         if(!userId){
             return new NextResponse('Unauthorized',{status:401});
@@ -34,7 +34,7 @@ export async function POST(req:Request, {params}:{params:{jobId:string}}){
 
         const job = await prismadb.jobsTable.create({
             data:{
-                position,company,status,salary,location,dataApplied,
+                position,company,status,salary,location,dataApplied,link,
                 jobId: params.jobId
             }
         })
