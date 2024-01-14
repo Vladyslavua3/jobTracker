@@ -28,6 +28,7 @@ model JobsTable {
   position    String
   company     String
   status      String
+  link        String
   salary      String
   location    String
   dataApplied DateTime
