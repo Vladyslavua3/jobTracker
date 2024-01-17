@@ -25,12 +25,14 @@ model JobsTable {
   id          String   @id @default(uuid())
   jobId       String
   store       Store    @relation("StoreToJobsTable", fields: [jobId], references: [id])
-  position    String
+  position    String?
   company     String
   status      String
-  link        String
-  salary      String
-  location    String
+  link        String?
+  resume      String?
+  coverLetter String?
+  salary      String?
+  location    String?
   dataApplied DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
