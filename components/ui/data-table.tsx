@@ -2,7 +2,7 @@
 
 import {Button} from '@/components/ui/button'
 import { Input } from "@/components/ui/input"
-import {useState} from "react";
+import React, {useState} from "react";
 
 import {
     ColumnDef,
@@ -22,6 +22,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {Badge} from "@/components/ui/badge";
+import { toast } from "sonner"
+import {ArrowDownToLine} from "lucide-react";
+import {Toaster} from "@/components/ui/sonner";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -29,11 +33,37 @@ interface DataTableProps<TData, TValue> {
     searchKey:string
 }
 
-export function DataTable<TData, TValue>({
+interface SonnerProps {
+    onClick:(stringText:string) => void
+}
+
+ function SonnerDemo({onClick}:SonnerProps) {
+    return (
+        <Button
+            variant="secondary"
+            className={'p-1 m-1 active:bg-black'}
+            onClick={() =>
+                toast("You've just copy your link", {
+                    action: {
+                        label: "Copy",
+                        onClick: () => onClick,
+                    },
+                })
+            }
+        >
+            <Toaster />
+            <ArrowDownToLine style={{zIndex:'10'}} />
+        </Button>
+    )
+}
+
+
+
+export function DataTable<_, TValue>({
                                              columns,
                                              data,
                                              searchKey
-                                         }: DataTableProps<TData, TValue>) {
+                                         }: DataTableProps<any, TValue>) {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
@@ -51,6 +81,11 @@ export function DataTable<TData, TValue>({
             columnFilters
         }
     })
+
+
+    const makeCopy = (stringText:string) => {
+        return navigator.clipboard?.writeText(stringText);
+    }
 
     return (
         <div>
@@ -92,9 +127,25 @@ export function DataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
+                                        cell.column.id === 'status' ?
+                                            <TableCell key={cell.id}>
+                                                <Badge variant={cell.row.original.status === 'Rejected' ? 'destructive' : 'default'} >{flexRender(cell.column.columnDef.cell, cell.getContext())}</Badge>
+                                            </TableCell>
+                                            : cell.column.id === 'link' && cell.row.original.link ?
+                                                <TableCell key={cell.id}>
+                                                    {
+                                                        cell.row.original.link ?
+                                                            <>
+                                                            <span>{cell.row.original.link.slice(12,35)} </span>
+                                                            <SonnerDemo  onClick={makeCopy(cell.row.original.link) as any}/>
+                                                            </>
+                                                        : null
+                                                    }
+                                                </TableCell>
+                                            :
+                                                <TableCell key={cell.id}>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
                                     ))}
                                 </TableRow>
                             ))
