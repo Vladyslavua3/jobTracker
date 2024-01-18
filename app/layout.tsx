@@ -6,6 +6,7 @@ import {ClerkProvider} from "@clerk/nextjs";
 import {ToasterProvider} from "@/providers/toast-provider";
 import {ModalProvider} from "@/providers/modal-provider";
 import ThemeProviders from "@/providers/theme-provider";
+import {EdgeStoreProvider} from "@/lib/edgestore";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,9 @@ export default function RootLayout({
             <ThemeProviders>
             <ToasterProvider/>
             <ModalProvider/>
-            {children}
+                <EdgeStoreProvider>
+                    {children}
+                </EdgeStoreProvider>
             </ThemeProviders>
             </body>
             </html>
