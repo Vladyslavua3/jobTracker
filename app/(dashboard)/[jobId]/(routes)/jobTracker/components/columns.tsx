@@ -6,12 +6,14 @@ import {CellAction} from "@/app/(dashboard)/[jobId]/(routes)/jobTracker/componen
 
 export type JobsColumn = {
     id: string
-    position: string
+    position: string | null
     company: string
-    status: string
-    link : string
-    salary: string
-    location: string
+    status: string | null
+    link : string | null
+    resume : string | null
+    coverLetter : string | null
+    salary: string | null
+    location: string | null
     dataApplied: string
 }
 

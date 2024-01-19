@@ -1,6 +1,6 @@
 "use client"
 import {columns, JobsColumn} from "@/app/(dashboard)/[jobId]/(routes)/jobTracker/components/columns";
-import {FC} from "react";
+import React, {FC} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {Plus} from "lucide-react";
 import {Button} from "@/components/ui/button";

@@ -24,10 +24,14 @@ const JobTracker = async ({
         company: item.company,
         link: item.link,
         status: item.status,
+        resume:item.resume,
+        coverLetter:item.coverLetter,
         salary: item.salary,
         location: item.location,
-        dataApplied: format(item.dataApplied,"MMMM do, yyyy"),
+        //TODO: Fix Types
+        dataApplied: format(item.dataApplied as any,"MMMM do, yyyy"),
     }))
+
 
 
     return(

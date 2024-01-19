@@ -17,8 +17,6 @@ const Navbar = async () => {
             userId
         }
     })
-    
-    console.log(stores.map(el => el.name))
 
     return (
         <div className={'border-b'}>
