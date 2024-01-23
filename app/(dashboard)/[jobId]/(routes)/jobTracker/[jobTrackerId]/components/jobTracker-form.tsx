@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, {useEffect} from "react";
 import {useForm} from "react-hook-form";
 import * as z from 'zod'
 import {JobsTable} from '@prisma/client'
@@ -27,6 +27,9 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
 import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar";
+import {MultiFileDropzoneUsage} from "@/components/ui/fileDropUsage";
+import {useFileLink} from "@/hooks/useFileLink";
+import Link from "next/link";
 
 
 
@@ -36,12 +39,14 @@ interface BillboardFormProps{
 
 
 const formSchema = z.object({
-    position: z.string().min(1),
+    position: z.string().min(1).optional(),
     company: z.string().min(1),
     status: z.string().min(1),
-    link:z.string().min(1),
-    salary: z.string().min(1),
-    location: z.string().min(1),
+    link:z.string().min(1).optional(),
+    resume:z.string().min(1).optional(),
+    coverLetter:z.string().min(1).optional(),
+    salary: z.string().min(1).optional(),
+    location: z.string().min(1).optional(),
     dataApplied: z.date()
 })
 
@@ -52,9 +57,9 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
                                                                initialData
                                                            }) => {
 
-    const params = useParams()
     const router = useRouter()
-
+    const params = useParams()
+    const {linkToResume,linkToCoverLetter} = useFileLink()
 
     const title = initialData ? 'Edit billboard' : 'Create billboard'
     const description = initialData ? 'Edit a billboard' : 'Add a new billboard'
@@ -64,28 +69,46 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
     const [open,setOpen] = useState(false)
     const [loading,setLoading] = useState(false)
     const [date, setDate] = React.useState<Date>()
+    const [resumeLink,setResumeLink] = useState<string>()
+    const [coverLink,setCoverLink] = useState<string>()
 
     const form = useForm<JobFormValues>({
-        resolver:zodResolver(formSchema),
+        // resolver:zodResolver(formSchema),
         defaultValues:initialData || {
-            position: "",
-            company: "",
-            status: "",
-            link: "",
-            salary: "",
-            location: "",
-            dataApplied:date
-        }
+            company: "" ,
+            status: "" ,
+            position: '',
+            link: '',
+            resume: '',
+            coverLetter: '',
+            salary: '',
+            location: '',
+            dataApplied:date,
+        } as any
     })
+    useEffect(() => {
+        setResumeLink(linkToResume)
+        setCoverLink(linkToCoverLetter)
+    }, [linkToResume,linkToCoverLetter]);
 
     const onSubmit = async (data:JobFormValues) =>{
-        console.log(data)
         try {
             setLoading(true)
+            const formattedData = {
+                company: data.company ,
+                status: data.status ,
+                position: data.position,
+                link: data.link,
+                resume: resumeLink,
+                coverLetter: coverLink,
+                salary: data.salary,
+                location: data.location,
+                dataApplied:data.dataApplied
+            }
             if(initialData){
-                await axios.patch(`/api/${params.jobId}/jobTracker/${params.jobTrackerId}`,data)
+                await axios.patch(`/api/${params.jobId}/jobTracker/${params.jobTrackerId}`,formattedData)
             }else {
-                await axios.post(`/api/${params.jobId}/jobTracker`,data)
+                await axios.post(`/api/${params.jobId}/jobTracker`,formattedData)
             }
             router.refresh()
             router.push(`/${params.jobId}/jobTracker`)
@@ -141,6 +164,48 @@ export const JobTrackerForm:React.FC<BillboardFormProps> = ({
                 <form onSubmit={form.handleSubmit(onSubmit)}
                       className={'space-y-8 w-full'}
                 >
+                    <div className={'grid grid-cols-3 gap-8'}>
+                        <FormField
+                            control={form.control}
+                            name='resume'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Resume</FormLabel>
+                                    {
+                                        field.value &&
+                                        <FormControl>
+                                            <div>
+                                                <Link href={field.value as string} target={'_blank'}>Link to your resume</Link>
+                                            </div>
+                                        </FormControl>
+                                    }
+                                    <MultiFileDropzoneUsage name={'resume'} />
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className={'grid grid-cols-3 gap-8'}>
+                        <FormField
+                            control={form.control}
+                            name='coverLetter'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Cover Letter</FormLabel>
+                                    {
+                                        field.value &&
+                                        <FormControl>
+                                            <div>
+                                                <Link href={field.value as string} target={'_blank'}>Link to your cover letter</Link>
+                                            </div>
+                                        </FormControl>
+                                    }
+                                    <MultiFileDropzoneUsage name={'coverLetter'} />
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                     <div className={'grid grid-cols-3 gap-8'}>
                     <FormField
                         control={form.control}
