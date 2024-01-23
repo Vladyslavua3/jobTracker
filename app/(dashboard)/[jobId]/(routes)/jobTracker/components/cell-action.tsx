@@ -5,7 +5,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
+    DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {useParams, useRouter} from "next/navigation";
 import axios from "axios";
 import {AlertModal} from "@/components/modals/alert-modal";
 import {JobsColumn} from "@/app/(dashboard)/[jobId]/(routes)/jobTracker/components/columns";
+
 
 interface CellActionProps {
     data:JobsColumn
@@ -32,9 +33,14 @@ export const CellAction:React.FC<CellActionProps> = ({
     const router = useRouter()
     const params = useParams()
 
-    const onCopy = (id:string) => {
-        navigator.clipboard.writeText(id)
-        toast.success('Job Id copied to the clipboard ')
+    const seeResume = (resumeLink:string | null) => {
+      if(resumeLink) return router.push(resumeLink)
+      toast.error('You did not add resume for this job')
+    }
+
+    const seeCoverLetter = (coverLetter:string | null) => {
+        if(coverLetter) return router.push(coverLetter)
+        toast.error('You did not add cover letter for this job')
     }
 
     const onDelete = async () => {
@@ -65,10 +71,14 @@ export const CellAction:React.FC<CellActionProps> = ({
                     <DropdownMenuLabel>
                         Action
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => onCopy(data.id)}>
-                        <Copy className={'mr-2 h-4 w-4'}/>
-                        Copy Id
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => seeResume(data.resume)}>
+                        See resume
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => seeCoverLetter(data.coverLetter)}>
+                      See cover letter
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => router.push(`/${params.jobId}/jobTracker/${data.id}`)}>
                         <Edit className={'mr-2 h-4 w-4'}/>
                         Update
