@@ -16,7 +16,7 @@ export interface JobsType{
 export interface CitiesType{
     id:string
     status:string
-    location:string
+    location:string | null
 }
 
 const DashBoardPage:React.FC<DashboardPropsType> = async ({params}) =>{
