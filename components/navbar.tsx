@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {auth, UserButton} from "@clerk/nextjs";
 import {MainNav} from "@/components/main-nav";
@@ -6,9 +7,11 @@ import prismadb from "@/lib/prismadb";
 import JobSwitcher from "@/components/job-switcher";
 import ThemeSwitcher from "@/components/ui/themeSwitcher";
 
+
 const Navbar = async () => {
 
     const {userId,user} = auth()
+
 
     if(!userId) return redirect("/sign-in")
 

@@ -3,6 +3,7 @@ import React from 'react';
 import {useParams, usePathname} from "next/navigation";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
+import Timer from "@/components/timer";
 
 export function MainNav({
     className,
@@ -28,6 +29,11 @@ export function MainNav({
                 label:'Schedule',
                 active: pathname === `/${params.jobId}/schedule`
             },
+            {
+                href:`/${params.jobId}/preparation`,
+                label:'Preparation',
+                active: pathname === `/${params.jobId}/preparation`
+            },
         ]
 
 
@@ -39,6 +45,9 @@ export function MainNav({
                        {route.label}
                    </Link>
                ))
+           }
+           {
+               pathname === `/${params.jobId}/preparation` && <Timer/>
            }
        </nav>
     )
