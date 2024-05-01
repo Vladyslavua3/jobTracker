@@ -14,7 +14,7 @@ export type JobsColumn = {
     coverLetter : string | null
     salary: string | null
     location: string | null
-    dataApplied: string
+    dataApplied: Date
 }
 
 export const columns: ColumnDef<JobsColumn>[] = [
