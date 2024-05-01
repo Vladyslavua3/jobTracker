@@ -1,31 +1,14 @@
 import React from "react";
 import prismadb from "@/lib/prismadb";
-import BarChart from "@/components/ui/barChart";
-import PieChart from "@/components/ui/pieChart";
+import CitiesChart from "@/components/ui/CitiesChart";
+import JobsChart from "@/components/ui/JobsChart";
 
 interface DashboardPropsType {
     params:{jobId:string}
 }
 
-export interface JobsType{
-    id:string
-    status:string
-    dataApplied:Date
-}
-
-export interface CitiesType{
-    id:string
-    status:string
-    location:string | null
-}
-
 const DashBoardPage:React.FC<DashboardPropsType> = async ({params}) =>{
 
-    const store = await prismadb.store.findFirst({
-        where:{
-            id:params.jobId
-        }
-    })
 
     const jobs =  await prismadb.jobsTable.findMany({
         where:{
@@ -36,28 +19,13 @@ const DashBoardPage:React.FC<DashboardPropsType> = async ({params}) =>{
         }
     })
 
-    const formattedJobs:JobsType[] = jobs.map((item)=>({
-        id:item.id,
-        status: item.status,
-        dataApplied: item.dataApplied,
-    }))
-
-
-    const formattedCities:CitiesType[] = jobs.map((item) => ({
-        id:item.id,
-        status:item.status,
-        location:item.location
-    }))
-
     return(
-        <div className={'h-screen'}>
-            Active Job : {store?.name}
-            <div className={'flex items-center justify-around h-full lg:flex-wrap md:flex-wrap'}>
-                <BarChart jobs={formattedJobs} />
-                <PieChart cities={formattedCities} />
-            </div>
+        <div className={'h-screen flex items-start justify-center p-20'}>
+          <JobsChart jobs={jobs} />
+          <CitiesChart jobs={jobs}/>
         </div>
     )
 }
 
 export default DashBoardPage
+
