@@ -95,7 +95,7 @@ const CustomCalendar:FC<CalendarClientProps> = ({data}) => {
                         {currentEvents?.map((event:EventApi) => (
                             <ListItem
                                 key={event.id}
-                                sx={{backgroundColor:'grey',margin:'10px 0'}}
+                                sx={{backgroundColor:'slategray',margin:'10px 0'}}
                             >
                                 <ListItemText
                                 primary={event.title}
